@@ -18,10 +18,14 @@ const Product = db.define('product', {
     type: Sequelize.FLOAT,
     allowNull: false
   },
+  inventoryQuantity: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
+  },
   photos: {
     type: Sequelize.ARRAY(Sequelize.STRING),
     defaultValue: ['https://afm-6b83.kxcdn.com/wp-content/uploads/2017/05/avoc-fruit.png']
   }
-})
+});
 
-module.exports = Product
+module.exports = Product;

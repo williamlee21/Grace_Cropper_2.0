@@ -39,7 +39,23 @@ function randUser () {
   return User.build({
     name: [chance.first(), chance.last()].join(' '),
     email: emails.pop(),
-    password: chance.word()
+    password: chance.word(),
+    address: chance.address()
+  });
+}
+
+function randReview (createdUsers, createdProducts) {
+  const user = chance.pick(createdUsers);
+  const product = chance.pick(createdProducts);
+  const numSents = chance.natural({
+    min: 1,
+    max: 10
+  });
+  return Review.build({
+    userId: user.id,
+    productId: product.id,
+    rating: Math.floor(Math.random() * 6),
+    comment: chance.n(chance.sentence, numSents).join('. ')
   });
 }
 
@@ -76,6 +92,10 @@ function generateUsers () {
   return users;
 }
 
+function generateReviews(createdUsers, createdProducts) {
+  return doTimes(numReviews, () => randReview(createdUsers, createdProducts));
+}
+
 function createProducts (products) {
   const prods = addProducts(products);
   return Promise.map(prods, prod => prod.save());
@@ -85,14 +105,13 @@ function createUsers () {
   return Promise.map(generateUsers(), user => user.save());
 }
 
-// function createStories (createdUsers) {
-//   return Promise.map(generateStories(createdUsers), story => story.save());
-// }
+function createReviews (createdUsers, createdProducts) {
+  return Promise.map(generateReviews(createdUsers, createdProducts), review => review.save());
+}
 
 function seed (products) {
-  return createUsers()
-  // .then(createdUsers => createStories(createdUsers))
-  .then(() => createProducts(products));
+  return Promise.all([createUsers(), createProducts(products)])
+    .spread((createdUsers, createdProducts) => createReviews(createdUsers, createdProducts));
 }
 
 console.log('Syncing database');

@@ -1,10 +1,11 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Route, Switch, Router} from 'react-router-dom'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 import history from './history'
-import {Main, Login, Signup, UserHome} from './components'
+import {Navbar, Login, Signup, UserHome, AllProducts} from './components'
 import {me} from './store'
+// import AllProducts from './components/all-products';
 
 /**
  * COMPONENT
@@ -19,7 +20,7 @@ class Routes extends Component {
 
     return (
       <Router history={history}>
-        <Main>
+        <Navbar>
           <Switch>
             {/* Routes placed here are available to all visitors */}
             <Route path="/login" component={Login} />
@@ -29,12 +30,14 @@ class Routes extends Component {
                 <Switch>
                   {/* Routes placed here are only available after logging in */}
                   <Route path="/home" component={UserHome} />
+
                 </Switch>
             }
             {/* Displays our Login component as a fallback */}
+            <Route path="/" component={AllProducts} />
             <Route component={Login} />
           </Switch>
-        </Main>
+        </Navbar>
       </Router>
     )
   }
@@ -64,7 +67,7 @@ export default connect(mapState, mapDispatch)(Routes)
 /**
  * PROP TYPES
  */
-Routes.propTypes = {
-  loadInitialData: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired
-}
+// Routes.propTypes = {
+//   loadInitialData: PropTypes.func.isRequired,
+//   isLoggedIn: PropTypes.bool.isRequired
+// }

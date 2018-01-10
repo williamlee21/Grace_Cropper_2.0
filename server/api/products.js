@@ -1,15 +1,13 @@
 const router = require('express').Router()
 const {Product} = require('../db/models')
-module.exports = router
 
 router.get('/', (req, res, next) => {
-    Product.findAll()
-        .then(products => res.json(products))
-        .catch(next)
-})
-
-router.get('/categories/:category', (req, res, next) => {
-    Product.findAll( { where: {category: req.params.category}})
+    let whereStatement = {}
+    if (Object.keys(req.query).length){
+        whereStatement = {where: req.query}
+        console.log(whereStatement)
+    }
+    Product.findAll(whereStatement)
         .then(products => res.json(products))
         .catch(next)
 })
@@ -19,6 +17,7 @@ router.get('/:productId', (req, res, next) => {
         .then(product => res.json(product))
         .catch(next)
 })
+
 router.post('/', (req, res, next) => {
     Product.create(req.body.product)
         .then(product => res.json(product))
@@ -41,3 +40,4 @@ router.delete('/', (req, res, next) => {
         .catch(next)
 })
 
+module.exports = router

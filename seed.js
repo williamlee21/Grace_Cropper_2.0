@@ -47,7 +47,6 @@ function addProducts (products) {
   const productList = products.map((product) => {
     return Product.build(product);
   });
-  console.log('!!', productList[0])
   return productList;
 }
 

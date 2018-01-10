@@ -9,8 +9,12 @@ const Order = db.define('order', {
   subtotal: {
     type: Sequelize.FLOAT,
     allowNull: false
+  },
+  authenticated: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false
   }
   //may need to keep track of timestamp of status change
-})
+});
 
-module.exports = Order
+module.exports = Order;

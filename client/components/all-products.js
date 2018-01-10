@@ -4,12 +4,14 @@ import { connect } from 'react-redux';
 
 class AllProducts extends Component{
 
+  // OB/AZ: undead code, dispel it (cut it out before it hits master)
   // constructor(props){
   //   super(props)
   // }
 
   render(){
     const {products} = this.props;
+    // OB/AZ: also burn your logs
     console.log(products)
     return (
       <div>

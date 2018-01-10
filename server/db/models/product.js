@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
 
+// OB/AZ: consider validations (not urgent)
 const Product = db.define('product', {
   name: {
     type: Sequelize.STRING,
@@ -15,6 +16,7 @@ const Product = db.define('product', {
     allowNull: false
   },
   price: {
+    // OB/AZ: watch out for ~the devil~ floating point math, consider using DECIMAL type (which is kind of for this) or INTEGER and measure in cents
     type: Sequelize.FLOAT,
     allowNull: false
   },

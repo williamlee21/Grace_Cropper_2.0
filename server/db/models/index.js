@@ -32,5 +32,9 @@ Product.hasMany(Review);
 Review.belongsTo(Product);
 
 module.exports = {
-  User
+  User,
+  Order,
+  Product,
+  Review,
+  productOrder
 }

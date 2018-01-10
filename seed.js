@@ -1,7 +1,8 @@
 const chance = require('chance')(123);
 const Promise = require('bluebird');
 
-const { db, User, Product, Review, Order, ProductOrder } = require('./server/db/models');
+const db = require('./server/db');
+const { User, Product, Review, Order, ProductOrder } = require('./server/db/models');
 
 const numUsers = 10;
 const numProducts = 15;
@@ -24,7 +25,7 @@ const products = [
     {name: 'Potato', category: 'tuber', description: 'this is a potato', price: 13.99, inventoryQuantity: 78},
     {name: 'Yucca', category: 'root', description: 'this is yucca', price: 14.99, inventoryQuantity: 54},
     {name: 'Yam', category: 'tuber', description: 'this is a yam', price: 15.99, inventoryQuantity: 38},
-] 
+]
 
 function doTimes (n, fn) {
   const results = [];
@@ -42,34 +43,33 @@ function randUser () {
   });
 }
 
-function addProduct () {
-    return Product.build({
-
-    })
+function addProducts (products) {
+  const productList = products.map((product) => {
+    return Product.build(product);
+  });
+  console.log('!!', productList[0])
+  return productList;
 }
 
 function generateUsers () {
   const users = doTimes(numUsers, randUser);
   users.push(User.build({
     name: 'Zeke Nierenberg',
-    photo: 'http://learndotresources.s3.amazonaws.com/workshop/55e5c92fe859dc0300619bc8/zeke-astronaut.png',
-    phone: '(510) 295-5523',
+    address: '123 test ave',
     email: 'zeke@zeke.zeke',
     password: '123',
     isAdmin: false
   }));
   users.push(User.build({
     name: 'Omri Bernstein',
-    photo: 'http://learndotresources.s3.amazonaws.com/workshop/55e5c92fe859dc0300619bc8/sloth.jpg',
-    phone: '(781) 854-8854',
+    address: '1 fake st',
     email: 'omri@omri.omri',
     password: '123',
     isAdmin: true
   }));
   users.push(User.build({
     name: 'Kate Humphrey',
-    photo: 'https://learndotresources.s3.amazonaws.com/workshop/59ea65d1badb1d0004bf4ca3/baby%20hippo.jpg',
-    phone: '(555) 623-7878',
+    address: '55 some pl',
     email: 'kate@kate.kate',
     password: '7890',
     isAdmin: true
@@ -77,21 +77,23 @@ function generateUsers () {
   return users;
 }
 
-function generateStories (createdUsers) {
-  return doTimes(numStories, () => randStory(createdUsers));
+function createProducts (products) {
+  const prods = addProducts(products);
+  return Promise.map(prods, prod => prod.save());
 }
 
 function createUsers () {
   return Promise.map(generateUsers(), user => user.save());
 }
 
-function createStories (createdUsers) {
-  return Promise.map(generateStories(createdUsers), story => story.save());
-}
+// function createStories (createdUsers) {
+//   return Promise.map(generateStories(createdUsers), story => story.save());
+// }
 
-function seed () {
+function seed (products) {
   return createUsers()
-  .then(createdUsers => createStories(createdUsers));
+  // .then(createdUsers => createStories(createdUsers))
+  .then(() => createProducts(products));
 }
 
 console.log('Syncing database');
@@ -99,7 +101,7 @@ console.log('Syncing database');
 db.sync({force: true})
   .then(() => {
     console.log('Seeding database');
-    return seed();
+    return seed(products);
   })
   .then(() => console.log('Seeding successful'))
   .catch(err => {

@@ -29,8 +29,11 @@ class AllProducts extends Component{
 
 }
 
-function mapState(){
-  return {}
+function mapState(storeState){
+  return {
+    products: storeState.products,
+  }
 }
+
 
 export default connect(mapState)(AllProducts)

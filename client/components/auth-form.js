@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 import {auth} from '../store'
 
 /**
@@ -71,9 +71,9 @@ export const Signup = connect(mapSignup, mapDispatch)(AuthForm)
 /**
  * PROP TYPES
  */
-AuthForm.propTypes = {
-  name: PropTypes.string.isRequired,
-  displayName: PropTypes.string.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  error: PropTypes.object
-}
+// AuthForm.propTypes = {
+//   name: PropTypes.string.isRequired,
+//   displayName: PropTypes.string.isRequired,
+//   handleSubmit: PropTypes.func.isRequired,
+//   error: PropTypes.object
+// }

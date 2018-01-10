@@ -1,5 +1,6 @@
 body {
-  font-family: sans-serif;
+  font-family: Helvetica;
+  background-color: grey
 }
 
 a {
@@ -18,4 +19,18 @@ nav a {
 form div {
   margin: 1em;
   display: inline-block;
+}
+
+.product-thumbnail {
+  border: 2px solid salmon;
+  margin: 1em;
+  padding: 1em
+
+}
+.product-img {
+  height: 20vh;
+  width: 20vh;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }

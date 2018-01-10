@@ -8,8 +8,7 @@ const User = db.define('user', {
     allowNull: false
   },
   address: {
-    type: Sequelize.STRING,
-    allowNull: false
+    type: Sequelize.STRING
   },
   email: {
     type: Sequelize.STRING,
@@ -24,10 +23,14 @@ const User = db.define('user', {
   },
   googleId: {
     type: Sequelize.STRING
+  },
+  isAdmin: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
   }
-})
+});
 
-module.exports = User
+module.exports = User;
 
 /**
  * instanceMethods

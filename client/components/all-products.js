@@ -4,13 +4,8 @@ import { connect } from 'react-redux';
 
 class AllProducts extends Component{
 
-  // constructor(props){
-  //   super(props)
-  // }
-
   render(){
     const {products} = this.props;
-    console.log('PRODUCTS LENGTH ====', products)
     const categories = []
     products.map(product => {
       return (
@@ -20,8 +15,6 @@ class AllProducts extends Component{
         null
       )}
     )
-
-  console.log('categories ===', categories)
 
     return (
       <div>

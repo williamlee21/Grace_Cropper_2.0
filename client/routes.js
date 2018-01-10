@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Route, Switch, Router} from 'react-router-dom'
-// import PropTypes from 'prop-types'
 import history from './history'
 import {Navbar, Login, Signup, UserHome, AllProducts} from './components'
 import {me, fetchProducts } from './store'
@@ -33,7 +32,8 @@ class Routes extends Component {
                 </Switch>
             }
             {/* Displays our Login component as a fallback */}
-            <Route path="/" component={AllProducts} />
+            <Route exact path="/" component={AllProducts} />
+            <Route path="/products/:productId" component={AllProducts} />
             <Route component={Login} />
           </Switch>
         </Navbar>
@@ -56,19 +56,8 @@ const mapState = (storeState) => {
 
 const mapDispatch = (dispatch) => {
   return {
-    // loadInitialData () {
-    //   dispatch(me())
-    // }
     loadProducts: () => dispatch(fetchProducts()),
   }
 }
 
 export default connect(mapState, mapDispatch)(Routes)
-
-/**
- * PROP TYPES
- */
-// Routes.propTypes = {
-//   loadInitialData: PropTypes.func.isRequired,
-//   isLoggedIn: PropTypes.bool.isRequired
-// }

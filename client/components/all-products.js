@@ -8,6 +8,7 @@ class AllProducts extends Component{
   }
 
   render(){
+    const {products} = this.props
     return (
       <div>
         <h1>all products</h1>
@@ -21,6 +22,17 @@ class AllProducts extends Component{
         <div id= "all-products-container">
           {
             // map products & render single-product
+            products.map(product => {
+              return (
+                <li key={product.id} id={product.id}>
+                  <Link to={`/products/${product.id}`}>
+                    <div>
+                      {`${product.image} ${product.name} ${product.price}`}
+                    </div>
+                  </Link>
+                </li>
+              )
+            })
           }
         </div>
       </div>

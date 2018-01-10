@@ -16,6 +16,7 @@ const Review = db.define('review', {
   rating: {
     type: Sequelize.FLOAT,
     allowNull: false,
+    // OB/AZ: could also use built-in sequelize min + max validations
     validate: {
       withinRange: function(rating) {
         if(!(rating >= 0 && rating <= 5)) {

@@ -7,14 +7,13 @@ class SingleProduct extends Component {
 
   render () {
     const URLId = Number(this.props.match.params.productId);
-
     const product = this.props.products.find(product =>
       URLId === product.id);
 
       if (!product) {
         return (
           <div>
-            <ErrorMessage />
+            <ErrorMessage message={`Oops...we don't have this product yet...`}/>
           </div>
         );
     } else {
@@ -25,6 +24,7 @@ class SingleProduct extends Component {
           <div>Category: {product.category}</div>
           <div>Price: {product.price}</div>
           <div>Description: {product.description}</div>
+          <div>Reviews: </div>
         </div>
       )
     }

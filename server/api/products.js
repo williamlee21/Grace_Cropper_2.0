@@ -5,7 +5,6 @@ router.get('/', (req, res, next) => {
     let whereStatement = {}
     if (Object.keys(req.query).length){
         whereStatement = {where: req.query}
-        console.log(whereStatement)
     }
     Product.findAll(whereStatement)
         .then(products => res.json(products))

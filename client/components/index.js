@@ -9,5 +9,5 @@ export {Login, Signup} from './auth-form'
 export {default as AllProducts} from './all-products'
 export {default as SingleProduct} from './singleProduct'
 export {default as ErrorMessage} from './ErrorMessage'
-
-
+export {default as Cart} from './cart'
+export {default as ProductList} from './ProductList'

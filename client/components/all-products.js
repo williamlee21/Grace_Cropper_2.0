@@ -61,10 +61,12 @@ class AllProducts extends Component{
   }
 }
 
-function mapState(storeState){
+const mapState = (storeState) => {
   return {
     products: storeState.products
   }
 }
+
+
 
 export default connect(mapState)(AllProducts)

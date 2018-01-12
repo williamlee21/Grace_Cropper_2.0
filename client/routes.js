@@ -56,7 +56,7 @@ const mapState = (storeState) => {
 
 const mapDispatch = (dispatch) => {
   return {
-    loadProducts: () => dispatch(fetchProducts()),
+    loadProducts: () => dispatch(fetchProducts())
   }
 }
 

@@ -1,8 +1,22 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { fetchProducts } from '../store/index';
 
 class AllProducts extends Component{
+
+  constructor(){
+    super()
+
+    this.state = {
+      serach: ''
+    }
+    this.onChange = this.onChange.bind(this)
+  }
+
+  onChange(event) {
+    this.setState({ search: event.target.value })
+  }
 
   render(){
     const {products} = this.props;
@@ -31,7 +45,10 @@ class AllProducts extends Component{
               })}
 
           </select>
-          <input type="text" placeholder="search by name..."/>
+          <input id="name" type="text" placeholder="search by name..." value={this.search} 
+            onSubmit={this.props.queryProducts}
+            onChange={this.onChange}
+          />
         </div>
         <div id= "all-products-container">
           {
@@ -67,6 +84,10 @@ const mapState = (storeState) => {
   }
 }
 
+const mapDispatch = (dispatch) => {
+  return {
+    queryProducts: (event) => dispatch(fetchProducts(event.target.id, event.target.value))
+  }
+}
 
-
-export default connect(mapState)(AllProducts)
+export default connect(mapState, mapDispatch)(AllProducts)

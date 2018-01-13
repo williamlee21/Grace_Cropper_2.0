@@ -6,7 +6,7 @@ router.get('/', (req, res, next) => {
     if (Object.keys(req.query).length){
         whereStatement = {where: req.query}
     }
-    Product.findAll(whereStatement)
+    Product.scope('populated').findAll(whereStatement)
         .then(products => res.json(products))
         .catch(next)
 })

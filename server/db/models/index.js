@@ -5,6 +5,8 @@ const Review = require('./review');
 const Category = require('./category');
 const productOrder = require('./product_order');
 const productCategories = require('./productCategories');
+const Sessions = require('./Sessions');
+
 const Sequelize = require('sequelize');
 
 /**
@@ -27,6 +29,9 @@ Order.belongsToMany(Product, {through: productOrder});
 User.hasMany(Order);
 Order.belongsTo(User);
 
+Sessions.hasMany(Order);
+Order.belongsTo(Sessions);
+
 User.hasMany(Review);
 Review.belongsTo(User);
 
@@ -43,5 +48,6 @@ module.exports = {
   Review,
   Category,
   productOrder,
-  productCategories
+  productCategories,
+  Sessions
 }

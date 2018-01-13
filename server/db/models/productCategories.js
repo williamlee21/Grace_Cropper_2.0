@@ -3,14 +3,12 @@ const db = require('../db');
 
 const productCategories = db.define('productCategories', {
   productId: {
-    type: Sequelize.INTEGER
-    // ,
-    // allowNull: false
+    type: Sequelize.INTEGER,
+    allowNull: false
   },
   categoryId: {
-    type: Sequelize.INTEGER
-    // ,
-    // allowNull: false
+    type: Sequelize.INTEGER,
+    allowNull: false
   }
 });
 

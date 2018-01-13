@@ -2,7 +2,9 @@ const User = require('./user');
 const Order = require('./order');
 const Product = require('./product');
 const Review = require('./review');
+const Category = require('./category');
 const productOrder = require('./product_order');
+const productCategories = require('./productCategories');
 const Sequelize = require('sequelize');
 
 /**
@@ -31,10 +33,15 @@ Review.belongsTo(User);
 Product.hasMany(Review);
 Review.belongsTo(Product);
 
+Product.belongsToMany(Category, {through: {model: productCategories, unique: false}});
+Category.belongsToMany(Product, {through: {model: productCategories, unique: false}});
+
 module.exports = {
   User,
   Order,
   Product,
   Review,
-  productOrder
+  Category,
+  productOrder,
+  productCategories
 }

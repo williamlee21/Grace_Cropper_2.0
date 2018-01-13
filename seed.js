@@ -2,11 +2,12 @@ const chance = require('chance')(123);
 const Promise = require('bluebird');
 
 const db = require('./server/db');
-const { User, Product, Review, Order, Category, ProductOrder } = require('./server/db/models');
+const { User, Product, Review, Order, Category, productOrder, productCategories} = require('./server/db/models');
 
 const numUsers = 10;
 const numProducts = 15;
 const numReviews = 20;
+const numCategories = 30;
 
 const emails = chance.unique(chance.email, numUsers);
 const products = [
@@ -28,12 +29,12 @@ const products = [
 ];
 
 const categories = [
-  {name: 'fruit'},
-  {name: 'vegetable'},
+  {name: 'all-natural'},
+  {name: 'local'},
   {name: 'organic'},
-  {name: 'tuber'},
+  {name: 'eco-friendly'},
   {name: 'GMO'},
-  {name: 'sweet'}
+  {name: 'farm-fresh'}
 ];
 
 function doTimes (n, fn) {
@@ -68,9 +69,19 @@ function randReview (createdUsers, createdProducts) {
   });
 }
 
+function randProductCategories(createdCategories, createdProducts) {
+  const category = chance.pick(createdCategories);
+  const product = chance.pick(createdProducts);
+
+  return productCategories.build({
+    categoryId: category.id,
+    productId: product.id
+  });
+}
+
 function addProducts (products) {
   const productList = products.map((product) => {
-    return Product.build(product);
+    return Product.build(product)
   });
   return productList;
 }
@@ -112,14 +123,18 @@ function generateReviews(createdUsers, createdProducts) {
   return doTimes(numReviews, () => randReview(createdUsers, createdProducts));
 }
 
-function createProducts (products) {
-  const prods = addProducts(products);
-  return Promise.map(prods, prod => prod.save());
+function generateProductCategories(createdCategories, createdProducts) {
+  return doTimes(numCategories, () => randProductCategories(createdCategories, createdProducts))
 }
 
 function createCategories (categories) {
   const categs = addCategories(categories);
   return Promise.map(categs, categ => categ.save());
+}
+
+function createProducts (products) {
+  const prods = addProducts(products);
+  return Promise.map(prods, prod => prod.save());
 }
 
 function createUsers () {
@@ -130,10 +145,16 @@ function createReviews (createdUsers, createdProducts) {
   return Promise.map(generateReviews(createdUsers, createdProducts), review => review.save());
 }
 
+function createProductCategories (createdCategories, createdProducts) {
+  return Promise.map(generateProductCategories(createdCategories, createdProducts), association => association.save())
+}
+
 function seed (products, categories) {
   return Promise.all([createUsers(), createProducts(products), createCategories(categories)])
-    .spread((createdUsers, createdProducts) => createReviews(createdUsers, createdProducts));
-}
+    .spread((createdUsers, createdProducts, createdCategories) => {
+      return (createReviews(createdUsers, createdProducts), createProductCategories(createdCategories, createdProducts))
+    })
+};
 
 console.log('Syncing database');
 

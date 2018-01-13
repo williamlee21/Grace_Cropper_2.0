@@ -4,28 +4,49 @@ import { connect } from 'react-redux';
 
 class AllProducts extends Component{
 
+  constructor(props){
+    super(props)
+
+    this.state = {
+      currentCategory: ''
+    }
+
+    this.handleCategoryChange = this.handleCategoryChange.bind(this);
+  }
+
+  handleCategoryChange(event){
+    this.setState({
+        currentCategory:
+        event.target.value === '-choose category-' ?
+        ''
+        :
+        event.target.value
+    })
+  }
+
   render(){
     const {products} = this.props;
     const categories = []
+
     products.map(product => {
-      return (
-        (!categories.includes(product.category)) ?
-          categories.push(product.category)
+      return product.categories.map( category => {
+        (!categories.includes(category.name)) ?
+          categories.push(category.name)
         :
-        null
-      )}
-    )
+        null;
+      })
+    })
 
     return (
       <div>
         <h1>Buy Our Produce! :)</h1>
         <div id="all-products-menu">
-          <select name="category" /*onChange= handleCategoryChange*/>
+          <select name="category" onChange= {this.handleCategoryChange} >
             <option default>-choose category-</option>
               {categories.map(category => {
                 return (
-                  <option key={category}
-                    value={category}>{category}
+                  <option key={category} value={category}>
+                    {category}
                   </option>
                 )
               })}
@@ -63,7 +84,7 @@ class AllProducts extends Component{
 
 function mapState(storeState){
   return {
-    products: storeState.products
+    products: storeState.products,
   }
 }
 

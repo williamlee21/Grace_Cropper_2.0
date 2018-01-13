@@ -1,10 +1,13 @@
 const router = require('express').Router()
-const {Product} = require('../db/models')
+const {Product, Category} = require('../db/models')
 
 router.get('/', (req, res, next) => {
     let whereStatement = {}
     if (Object.keys(req.query).length){
-        whereStatement = {where: req.query}
+      console.log('=======', req.query)
+        whereStatement = {where: req.query, include: [{ model: Category }]}
+    }else{
+      whereStatement = {include: [{ model: Category }]}
     }
     Product.findAll(whereStatement)
         .then(products => res.json(products))

@@ -7,11 +7,12 @@ const session = require('express-session')
 const passport = require('passport')
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
 const db = require('./db')
+const Sessions = require('./db/models/Sessions');
 const sessionStore = new SequelizeStore({db})
 const PORT = process.env.PORT || 8080
 const app = express()
 const socketio = require('socket.io')
-module.exports = app
+module.exports = app;
 
 /**
  * In your development environment, you can keep all of your
@@ -46,10 +47,20 @@ const createApp = () => {
     secret: process.env.SESSION_SECRET || 'my best friend is Cody',
     store: sessionStore,
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    orderId: null
+
   }))
   app.use(passport.initialize())
   app.use(passport.session())
+
+  // Express-session username logging middleware
+  app.use(function(req, res, next) {
+    console.log('SESSION USER: ', req.session);
+    console.log('REQ.SESSION.PASSPORT', req.session.passport)
+    next();
+  });
+
 
   // auth and api routes
   app.use('/auth', require('./auth'))

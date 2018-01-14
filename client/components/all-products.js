@@ -15,9 +15,10 @@ class AllProducts extends Component{
     this.handleSearchChange = this.handleSearchChange.bind(this)
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
   }
-  
+
   handleSearchChange(event) {
     this.setState({ search: event.target.value })
+  }
 
   handleCategoryChange(event){
     this.setState({
@@ -57,7 +58,7 @@ class AllProducts extends Component{
               })}
 
           </select>
-          <input id="name" type="text" placeholder="search by name..." value={this.search} 
+          <input id="name" type="text" placeholder="search by name..." value={this.search}
             onSubmit={this.props.queryProducts}
             onChange={this.onChange}
           />

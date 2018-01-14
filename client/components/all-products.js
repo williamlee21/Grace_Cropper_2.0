@@ -16,7 +16,7 @@ class AllProducts extends Component{
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
   }
   
-  handleSearcgChange(event) {
+  handleSearchChange(event) {
     this.setState({ search: event.target.value })
 
   handleCategoryChange(event){

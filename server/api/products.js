@@ -15,7 +15,7 @@ router.get('/', (req, res, next) => {
 })
 
 router.get('/:productId', (req, res, next) => {
-    Product.findById(req.params.productId)
+    Product.scope('populated').findById(req.params.productId)
         .then(product => res.json(product))
         .catch(next)
 })
@@ -27,7 +27,7 @@ router.post('/', (req, res, next) => {
 })
 
 router.put('/', (req, res, next) => {
-    Product.update(req.body, {
+    Product.scope('populated').update(req.body, {
         where: {id: req.body.id},
         returning: true,
         plain: true

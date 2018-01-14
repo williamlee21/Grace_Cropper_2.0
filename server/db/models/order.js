@@ -18,18 +18,24 @@ const Order = db.define('order', {
   // }
   //may need to keep track of timestamp of status change
   // consider how to differentiate between cart vs ordwr
+},{
+  scopes: {
+    populated: () => ({
+      include: {
+        all:true
+      }
+    })
+  }
 });
 
-Order.afterSave((orderInstance, options) => {
-  orderInstance.getProducts({
-    include: [{
-      model: productOrders,
-      where: {
-        orderId: orderInstance.id
-      }
-    }]
-  })
-  .then(productDetails => console.log('deeets', productDetails, orderInstance.id))
+Order.scope('populated').beforeSave((orderInstance, options) => {
+  console.log('what is this?????', orderInstance.id)
+  // orderInstance.getProducts({
+  //     where: {
+  //      productId: orderInstance.orderProduct.productId
+  //     }
+  // })
+  // .then(productDetails => console.log('deeets', productDetails, orderInstance.id))
 })
 
 module.exports = Order;

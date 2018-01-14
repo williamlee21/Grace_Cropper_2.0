@@ -27,7 +27,7 @@ router.post('/', (req, res, next) => {
 
         console.log('what is req.body??????', req.body),
 
-        Order.create(req.body.product)
+        Order.scope('populated').create(req.body)
             .then(order => order.setUser(req.user))
             .then(order => order.setProducts(req.body.productId))
             .then(order => res.send(order))

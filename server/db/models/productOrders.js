@@ -10,6 +10,15 @@ const productOrders = db.define('productOrders', {
   //   type: Sequelize.FLOAT,
   //   allowNull: false
   // }
+}, {
+  scopes: {
+    populated: () => ({
+      include: {
+        all:true
+      }
+    })
+  }
 });
+
 
 module.exports = productOrders;

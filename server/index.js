@@ -56,8 +56,8 @@ const createApp = () => {
 
   // Express-session username logging middleware
   app.use(function(req, res, next) {
-    console.log('SESSION USER: ', req.session.passport);
-    console.log('REQ.SESSION.ORDERID', req.session.orderId)
+    console.log('SESSION USER: ', req.session);
+    console.log('REQ.SESSION.PASSPORT', req.session.passport)
     next();
   });
 

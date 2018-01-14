@@ -23,10 +23,8 @@ const Sequelize = require('sequelize');
  * instead of: const User = require('../db/models/user')
  */
 
-// Product.belongsToMany(Order, {through: productOrders, foreignKey: 'productId'});
-// Order.belongsToMany(Product, {through: productOrders, foreignKey: 'orderId'});
-Product.belongsToMany(Order, {through: "productOrders", foreignKey: 'productId'});
-Order.belongsToMany(Product, {through: "productOrders", foreignKey: 'orderId'});
+Product.belongsToMany(Order, {through: 'productOrders', foreignKey: 'productId'});
+Order.belongsToMany(Product, {through: 'productOrders', foreignKey: 'orderId'});
 
 User.hasMany(Order);
 Order.belongsTo(User);
@@ -40,8 +38,8 @@ Review.belongsTo(User);
 Product.hasMany(Review);
 Review.belongsTo(Product);
 
-Product.belongsToMany(Category, {through: {model: productCategories, unique: false}});
-Category.belongsToMany(Product, {as: 'Categories', through: {model: productCategories, unique: false}});
+Product.belongsToMany(Category, {through: 'productCategories'})
+Category.belongsToMany(Product, {through: 'productCategories'})
 
 module.exports = {
   User,

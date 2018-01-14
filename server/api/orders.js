@@ -24,6 +24,7 @@ router.post('/', (req, res, next) => {
     // pending issues => what do we want on Order table?
         // how to set multiple productId?
     if (gatekeeperMiddleware.isLoggedIn) {
+
         console.log('what is req.body??????', req.body),
 
         Order.create(req.body.product)

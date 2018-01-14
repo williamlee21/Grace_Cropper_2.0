@@ -6,10 +6,6 @@ const Product = db.define('product', {
     type: Sequelize.STRING,
     allowNull: false
   },
-  category: {
-    type: Sequelize.STRING,
-    allowNull: false
-  },
   description: {
     type: Sequelize.TEXT,
     allowNull: false
@@ -25,6 +21,14 @@ const Product = db.define('product', {
   photos: {
     type: Sequelize.ARRAY(Sequelize.STRING),
     defaultValue: ['https://afm-6b83.kxcdn.com/wp-content/uploads/2017/05/avoc-fruit.png']
+  }
+}, {
+  scopes: {
+    populated: () => ({
+      include: {
+        all:true
+      }
+    })
   }
 });
 

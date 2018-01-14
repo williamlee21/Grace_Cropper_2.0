@@ -12,12 +12,12 @@ class AllProducts extends Component{
       currentCategory: '',
       serach: ''
     }
-    this.handleSearchChange = this.handleSearchChange.bind(this)
+    this.handleSearchChange = this.handleSearchChange.bind(this);
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
   }
 
   handleSearchChange(event) {
-    this.setState({ search: event.target.value })
+    this.setState({ search: event.target.value });
   }
 
   handleCategoryChange(event){
@@ -32,7 +32,7 @@ class AllProducts extends Component{
 
   render(){
     const {products} = this.props;
-    const categories = []
+    const categories = [];
 
     products.map(product => {
       return product.categories.map( category => {
@@ -58,10 +58,14 @@ class AllProducts extends Component{
               })}
 
           </select>
-          <input id="name" type="text" placeholder="search by name..." value={this.search}
-            onSubmit={this.props.queryProducts}
-            onChange={this.onChange}
-          />
+          <form onSubmit={this.props.searchProducts}>
+            <input id="name" type="text" placeholder="search by name..." value={this.search}
+            onChange={this.handleSearchChange}
+            />
+          <button>
+            <input type="submit" value="Submit" />
+          </button>
+          </form>
         </div>
         <div id= "all-products-container">
           {
@@ -99,7 +103,11 @@ const mapState = (storeState) => {
 
 const mapDispatch = (dispatch) => {
   return {
-    queryProducts: (event) => dispatch(fetchProducts(event.target.id, event.target.value))
+    searchProducts: (event) => {
+      event.preventDefault()
+      console.log('event', event.target.name.id)
+      dispatch(fetchProducts(event.target.name.id, event.target.name.value));
+    }
   }
 }
 

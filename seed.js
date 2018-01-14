@@ -2,7 +2,7 @@ const chance = require('chance')(123);
 const Promise = require('bluebird');
 
 const db = require('./server/db');
-const { User, Product, Review, Order, Category, productOrder, productCategories} = require('./server/db/models');
+const { User, Product, Review, Order, Category, productOrders, productCategories} = require('./server/db/models');
 
 const numUsers = 10;
 const numProducts = 15;

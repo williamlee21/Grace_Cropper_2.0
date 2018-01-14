@@ -21,9 +21,9 @@ export const removeProducts = () => ({type: REMOVE_PRODUCTS})
 /**
  * THUNK CREATORS
  */
-export const fetchProducts = () => {
+export const fetchProducts = (queryType, query) => {
   return function(dispatch){
-    axios.get('/api/products')
+    axios.get('/api/products' +(query ? '?' + queryType + '=' + query : ''))
       .then( res => res.data)
       .then( products => dispatch(getProducts(products)))
       .catch(err => console.log(err))

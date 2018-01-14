@@ -105,7 +105,6 @@ const mapDispatch = (dispatch) => {
   return {
     searchProducts: (event) => {
       event.preventDefault()
-      console.log('event', event.target.name.id)
       dispatch(fetchProducts(event.target.name.id, event.target.name.value));
     }
   }

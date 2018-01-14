@@ -10,24 +10,28 @@ const gatekeeperMiddleware = require('../utils/gatekeeperMiddleware');
 // })
 
 // router.get('/:orderId', (req, res, next) => {
-//     Product.findById(req.params.productId)
-//         .then(product => res.json(product))
-//         .catch(next)
+//     if (gatekeeperMiddleware.isLoggedIn ) {
+//         Product.findById(req.params.productId)
+//             .then(product => res.json(product))
+//             .catch(next)
+//     }
 // })
 
 router.post('/', (req, res, next) => {
+    // we will check whether human user is logged in, if so, we will create an order,
+    // set req.user as UserId on order table
+    // set the productId on productOrder table
+    // pending issues => what do we want on Order table?
+        // how to set multiple productId?
     if (gatekeeperMiddleware.isLoggedIn) {
+        console.log('what is req.body??????', req.body),
+
         Order.create(req.body.product)
-            .then(order => {
-                return (
-                    order.setUser(req.user),
-                    res.json(order)
-                )
-            })
+            .then(order => order.setUser(req.user))
+            .then(order => order.setProducts(req.body.productId))
+            .then(order => res.send(order))
             .catch(next)
-
     }
-
 })
 
 router.put('/', (req, res, next) => {

@@ -3,7 +3,7 @@ const Order = require('./order');
 const Product = require('./product');
 const Review = require('./review');
 const Category = require('./category');
-const productOrder = require('./product_order');
+const productOrders = require('./productOrders');
 const productCategories = require('./productCategories');
 const Sessions = require('./Sessions');
 
@@ -23,8 +23,10 @@ const Sequelize = require('sequelize');
  * instead of: const User = require('../db/models/user')
  */
 
-Product.belongsToMany(Order, {through: productOrder});
-Order.belongsToMany(Product, {through: productOrder});
+// Product.belongsToMany(Order, {through: productOrders, foreignKey: 'productId'});
+// Order.belongsToMany(Product, {through: productOrders, foreignKey: 'orderId'});
+Product.belongsToMany(Order, {through: "productOrders", foreignKey: 'productId'});
+Order.belongsToMany(Product, {through: "productOrders", foreignKey: 'orderId'});
 
 User.hasMany(Order);
 Order.belongsTo(User);
@@ -39,7 +41,7 @@ Product.hasMany(Review);
 Review.belongsTo(Product);
 
 Product.belongsToMany(Category, {through: {model: productCategories, unique: false}});
-Category.belongsToMany(Product, {through: {model: productCategories, unique: false}});
+Category.belongsToMany(Product, {as: 'Categories', through: {model: productCategories, unique: false}});
 
 module.exports = {
   User,
@@ -47,7 +49,7 @@ module.exports = {
   Product,
   Review,
   Category,
-  productOrder,
+  productOrders,
   productCategories,
   Sessions
 }

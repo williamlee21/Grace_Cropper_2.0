@@ -6,6 +6,14 @@ const Category = db.define('category', {
     type: Sequelize.STRING,
     allowNull: false,
   }
+},{
+  scopes: {
+    populated: () => ({
+      include: {
+        all:true
+      }
+    })
+  }
 });
 
 module.exports = Category;

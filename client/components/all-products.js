@@ -63,10 +63,12 @@ class AllProducts extends Component{
                       className="product-img">
                         {`${product.name}
                         ${product.price}`}
-                        
+
                       </div>
                     </Link>}
-                    <AddToCart />
+                    <AddToCart
+                      productId={product.id}
+                      productPrice={product.price}/>
                   </div>
                 )
               })

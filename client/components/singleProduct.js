@@ -26,7 +26,11 @@ class SingleProduct extends Component {
         <div>
           <div>Product Name: {product.name}</div>
           <img src={product.photos[0]} style={{width: 300}} />
-          <div>Category: {product.category}</div>
+          <div>Categories: {product.categories.map((category) => {
+            return(
+              <h5 key={category.id}>{category.name}</h5>
+            )
+          })}</div>
           <div>Price: {product.price}</div>
           <div>Description: {product.description}</div>
           <div>

@@ -10,13 +10,14 @@ class AllProducts extends Component{
 
     this.state = {
       currentCategory: '',
-      serach: ''
+      search: ''
     };
     this.handleSearchChange = this.handleSearchChange.bind(this);
   }
 
   handleSearchChange(event) {
     this.setState({ search: event.target.value });
+    this.props.searchProducts(event);
   }
 
   render(){

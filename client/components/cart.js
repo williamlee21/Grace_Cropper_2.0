@@ -7,17 +7,33 @@ import {ProductList} from './ProductList';
 class Cart extends Component {
 
   render () {
-    const cart = ''
+    // return (
+    //   <h1>I AM WORKING </h1>
+    // )
+    
+    const cart = 'a'
       if (!cart) {
         return (
           <div>
+            <h1>I AM BORKEN</h1>
             <ErrorMessage message={`Sorry, we can't find your cart`} />
           </div>
         );
       } else {
       return (
         <div>
-
+          <ul>
+            {console.log(this.props)}
+            {this.props.orders.map(order =>{
+              return (
+                <li key={order.productId}>
+                  {
+                    order.productId
+                  }
+                </li>
+              )
+            })}
+          </ul>
         </div>
       )
     }

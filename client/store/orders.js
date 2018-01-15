@@ -9,7 +9,11 @@ const ADD_ORDER = 'ADD_ORDER';
 /**
  * INITIAL STATE
  */
-const defaultOrders = [];
+const defaultOrders = [
+  {productId:'1', quantity:2, price:1.99},
+  {productId:'2', quantity:1, price:2.99},
+  {productId:'3', quantity:4, price:3.99}
+];
 
 /**
  * ACTION CREATORS

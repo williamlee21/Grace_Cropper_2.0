@@ -23,11 +23,7 @@ router.post('/', (req, res, next) => {
     // set req.user as UserId on order table
     // set the productId on productOrder table
     // pending issues => what do we want on Order table?
-        // how to set multiple productId?
     if (gatekeeperMiddleware.isLoggedIn) {
-
-        console.log('what is req.body??????', req.body),
-
         Order.scope('populated').create(req.body)
             .then(order => order.setUser(req.user))
             .then(order => order.setProducts(
@@ -38,10 +34,32 @@ router.post('/', (req, res, next) => {
                     }
                 })
             )
-            .then(order => res.send(order))
+            .then(order => {
+                return (
+                    req.session.cart = order.id,
+                    res.send(order)
+                )
+            })
             .catch(next)
     } else {
-
+        console.log('session', req.session.id)
+        Order.scope('populated').create()
+        .then(order => order.setUser(req.session.id))
+        .then(order => order.setProducts(
+            req.body.productId, {
+                through: {
+                    quantity: req.body.quantity,
+                    price: req.body.price
+                }
+            })
+        )
+        .then(order => {
+            return (
+                req.session.cart = order.id,
+                res.send(order)
+            )
+        })
+        .catch(next)
     }
 })
 

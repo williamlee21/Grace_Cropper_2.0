@@ -24,8 +24,20 @@ router.post('/', (req, res, next) => {
     // set the productId on productOrder table
     // pending issues => what do we want on Order table?
     if (gatekeeperMiddleware.isLoggedIn) {
-        Order.scope('populated').create(req.body)
-            .then(order => order.setUser(req.user))
+        console.log('TYPEOF', typeof req.session.orderId);
+        Order.findOrCreate({where: {id: req.session.orderId}})
+            .spread((order, isCreated) => {
+                console.log('this is isCreated', isCreated)
+                if (isCreated) {
+                    console.log('ORDER WAS CREATED!!!')
+                    console.log('typeof Order', order)
+                    return order.setUser(req.user)
+                } else {
+                    console.log('ORDER EXISTED!!!')
+                    return order
+                }
+            })
+            // .then(order => order.setUser(req.user))
             .then(order => order.setProducts(
                 req.body.productId, {
                     through: {
@@ -35,16 +47,16 @@ router.post('/', (req, res, next) => {
                 })
             )
             .then(order => {
+                console.log('what is order???', order[0][0].orderId)
+                console.log('what is orderId???', order.orderId)
+                req.session.orderId = order.orderId
                 return (
-                    req.session.cart = order.id,
                     res.send(order)
                 )
             })
             .catch(next)
     } else {
-        console.log('session', req.session.id)
-        Order.scope('populated').create()
-        .then(order => order.setUser(req.session.id))
+        Order.create()
         .then(order => order.setProducts(
             req.body.productId, {
                 through: {
@@ -55,7 +67,7 @@ router.post('/', (req, res, next) => {
         )
         .then(order => {
             return (
-                req.session.cart = order.id,
+                req.session.orderId = order.id,
                 res.send(order)
             )
         })

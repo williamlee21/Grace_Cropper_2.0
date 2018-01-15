@@ -22,6 +22,8 @@ class AllProducts extends Component{
 
   render(){
     const {categories} = this.props;
+
+    //OB/AZ - This logic could be pushed to the backend **Not a priority**
     const products = this.props.currentCategory.length ? this.props.products.filter((product) => {
       return product.categories.find((category) => {
         return category.name === this.props.currentCategory;
@@ -42,7 +44,9 @@ class AllProducts extends Component{
                 )
               })}
           </select>
+          {/* OB/AZ - remove onSubmit */}
           <form onSubmit={this.props.searchProducts}>
+          {/* OB/AZ -- this.state.search */}
             <input id="name" type="text" placeholder="search by name..." value={this.search}
             onChange={this.handleSearchChange}
             />

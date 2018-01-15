@@ -2,6 +2,7 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 // const {sessionStore} = require('../../')
 
+//OB/AZ - Not sure what to do with this? -- to discuss as group
 var Sessions = db.define('Sessions', {
   sid: {
     type: Sequelize.STRING,

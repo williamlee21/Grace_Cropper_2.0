@@ -23,6 +23,7 @@ const Product = db.define('product', {
     defaultValue: ['https://afm-6b83.kxcdn.com/wp-content/uploads/2017/05/avoc-fruit.png']
   }
 }, {
+  //OB/AZ - populated could just be an object
   scopes: {
     populated: () => ({
       include: {

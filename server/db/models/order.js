@@ -2,6 +2,8 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 const productOrders = require('./productOrders')
 
+
+//OB/AZ - Get rid of dead code
 const Order = db.define('order', {
   status: {
     type: Sequelize.STRING,
@@ -20,6 +22,8 @@ const Order = db.define('order', {
   // consider how to differentiate between cart vs ordwr
 });
 
+
+//OB/AZ - To remove
 Order.afterSave((orderInstance, options) => {
   orderInstance.getProducts({
     include: [{

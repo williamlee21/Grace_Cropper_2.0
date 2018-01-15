@@ -5,6 +5,7 @@ router.get('/', (req, res, next) => {
     let whereStatement = {}
     if (Object.keys(req.query).length){
       console.log('=======', req.query)
+      //OB/AZ - includes are unnecessary due to scopes in models
         whereStatement = {where: req.query, include: [{ model: Category }]}
     }else{
       whereStatement = {include: [{ model: Category }]}

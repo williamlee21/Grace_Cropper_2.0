@@ -11,11 +11,13 @@ import {me, fetchProducts, fetchCategories, setCategory } from './store';
  */
 class Routes extends Component {
   componentDidMount () {
+    //OB/AZ - Maybe consider moving this to all products component?
     this.props.loadProducts();
     this.props.loadCategories();
   }
 
   render () {
+    //OB/AZ - Remove unused variables
     const {isLoggedIn, products} = this.props;
 
     return (
@@ -29,6 +31,7 @@ class Routes extends Component {
               isLoggedIn &&
                 <Switch>
                   {/* Routes placed here are only available after logging in */}
+                  {/* OB/AZ - this component is not being used */}
                   <Route path="/home" component={UserHome} />
                 </Switch>
             }

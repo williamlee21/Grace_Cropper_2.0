@@ -11,6 +11,7 @@ const REMOVE_REVIEWS = 'REMOVE_REVIEWS';
  * DUMMY REVIEWS
  */
 
+ //OB/AZ - remove dummy data to make call to DB
  const dummyReviews = [
   {
     comment: 'this is tasty',
@@ -44,6 +45,8 @@ const defaultReviews = [];
  * ACTION CREATORS
  */
 const getReviews = reviews => ({type: GET_REVIEWS, reviews})
+
+//OB/AZ - Only remove one review, not all
 const removeReviews = () => ({type: REMOVE_REVIEWS})
 
 /**

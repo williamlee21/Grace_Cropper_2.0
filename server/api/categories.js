@@ -46,6 +46,7 @@ router.put('/:id', (req, res, next) => {
     .catch(next)
   });
 
+
 // DELETE api/categories/:id
 // Sandy - Actually, I don't think this is necessary for our project.....
 router.delete('/:id', (req, res, next) => {

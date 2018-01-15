@@ -1,7 +1,9 @@
 const router = require('express').Router()
 const {Order} = require('../db/models')
+//OB/AZ - make sure to import Product Model
 
 const gatekeeperMiddleware = require('../utils/gatekeeperMiddleware');
+
 
 // router.get('/', (req, res, next) => {
 //     if (gatekeeperMiddleware.isLoggedIn) {
@@ -23,9 +25,13 @@ router.post('/', (req, res, next) => {
     // set the productId on productOrder table
     // pending issues => what do we want on Order table?
         // how to set multiple productId?
+
+    //OB/AZ - this is a function - so will always be truthy and never returns a boolean
+    //Insert this funciton before (req,res,next)
     if (gatekeeperMiddleware.isLoggedIn) {
 
-        console.log('what is req.body??????', req.body),
+        //OB/AZ - Remove console.log
+        console.log('what is req.body??????', req.body)
 
         Order.create(req.body.product)
             .then(order => order.setUser(req.user))

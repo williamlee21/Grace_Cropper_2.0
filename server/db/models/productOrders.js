@@ -6,6 +6,7 @@ const productOrders = db.define('productOrders', {
     type: Sequelize.INTEGER,
     defaultValue: 1
   },
+  //OB/AZ - Get rid of dead code
   // price: {
   //   type: Sequelize.FLOAT,
   //   allowNull: false

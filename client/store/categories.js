@@ -16,6 +16,8 @@ const defaultCategories = [];
  * ACTION CREATORS
  */
 export const getCategories = categories => ({type: GET_CATEGORIES, categories})
+
+//OB/AZ - Not going to remove categories
 export const removeCategories = () => ({type: REMOVE_CATEGORIES})
 
 /**

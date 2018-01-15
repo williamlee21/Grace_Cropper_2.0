@@ -59,7 +59,7 @@ function mapStateToProps(storeState) {
   return {}
 }
 
-function mapDispatchToProps(storeState){
+function mapDispatchToProps(dispatch){
   return {
     addProductToCart : order => dispatch(addToOrders(order))
   }

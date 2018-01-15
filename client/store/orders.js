@@ -33,7 +33,7 @@ export const addToOrders = (order) => {
   return function(dispatch){
     axios.post('/api/orders', order)
     .then( res => res.data)
-    .tap( () => dispatch(addOrder(order)))
+    .then( () => dispatch(addOrder(order)))
     .catch( err => console.log(err))
   }
 }

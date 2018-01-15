@@ -1,62 +1,45 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchProducts } from '../store/index';
+import { fetchProducts, setCategory, removeCategory } from '../store/index';
 
 class AllProducts extends Component{
 
   constructor(props){
-    super(props)
+    super(props);
 
     this.state = {
       currentCategory: '',
       serach: ''
-    }
+    };
     this.handleSearchChange = this.handleSearchChange.bind(this);
-    this.handleCategoryChange = this.handleCategoryChange.bind(this);
   }
 
   handleSearchChange(event) {
     this.setState({ search: event.target.value });
   }
 
-  handleCategoryChange(event){
-    this.setState({
-        currentCategory:
-        event.target.value === '-choose category-' ?
-        ''
-        :
-        event.target.value
-    })
-  }
-
   render(){
-    const {products} = this.props;
-    const categories = [];
-
-    products.map(product => {
-      return product.categories.map( category => {
-        (!categories.includes(category.name)) ?
-          categories.push(category.name)
-        :
-        null;
-      })
-    })
+    const {categories} = this.props;
+    const products = this.props.currentCategory.length ? this.props.products.filter((product) => {
+      return product.categories.find((category) => {
+        return category.name === this.props.currentCategory;
+      });
+    }) : this.props.products;
 
     return (
       <div>
         <h1>Buy Our Produce! :)</h1>
         <div id="all-products-menu">
-          <select name="category" onChange= {this.handleCategoryChange} >
+          <select name="category" onChange= {this.props.refineByCategory} >
             <option default>-choose category-</option>
               {categories.map(category => {
                 return (
-                  <option key={category} value={category}>
-                    {category}
+                  <option key={category.id} value={category.name}>
+                    {category.name}
                   </option>
                 )
               })}
-
           </select>
           <form onSubmit={this.props.searchProducts}>
             <input id="name" type="text" placeholder="search by name..." value={this.search}
@@ -98,6 +81,8 @@ class AllProducts extends Component{
 const mapState = (storeState) => {
   return {
     products: storeState.products,
+    categories: storeState.categories,
+    currentCategory: storeState.currentCategory
   }
 }
 
@@ -106,6 +91,14 @@ const mapDispatch = (dispatch) => {
     searchProducts: (event) => {
       event.preventDefault()
       dispatch(fetchProducts(event.target.name.id, event.target.name.value));
+    },
+    refineByCategory: (event) => {
+      event.preventDefault()
+      if(event.target.value !== '-choose category-') {
+        dispatch(setCategory(event.target.value))
+      } else {
+        dispatch(removeCategory())
+      }
     }
   }
 }

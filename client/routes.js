@@ -1,9 +1,9 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {Route, Switch, Router} from 'react-router-dom'
-import history from './history'
-import {Navbar, Login, Signup, UserHome, AllProducts, SingleProduct} from './components'
-import {me, fetchProducts } from './store'
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {Route, Switch, Router} from 'react-router-dom';
+import history from './history';
+import {Navbar, Login, Signup, UserHome, AllProducts, SingleProduct} from './components';
+import {me, fetchProducts, fetchCategories, setCategory } from './store';
 
 
 /**
@@ -11,11 +11,12 @@ import {me, fetchProducts } from './store'
  */
 class Routes extends Component {
   componentDidMount () {
-    this.props.loadProducts()
+    this.props.loadProducts();
+    this.props.loadCategories();
   }
 
   render () {
-    const {isLoggedIn, products} = this.props
+    const {isLoggedIn, products} = this.props;
 
     return (
       <Router history={history}>
@@ -56,7 +57,8 @@ const mapState = (storeState) => {
 
 const mapDispatch = (dispatch) => {
   return {
-    loadProducts: () => dispatch(fetchProducts())
+    loadProducts: () => dispatch(fetchProducts()),
+    loadCategories: () => dispatch(fetchCategories())
   }
 }
 

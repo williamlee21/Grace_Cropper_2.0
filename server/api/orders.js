@@ -1,5 +1,6 @@
 const router = require('express').Router()
-const {Order} = require('../db/models')
+const {Order, productOrders} = require('../db/models')
+
 
 const gatekeeperMiddleware = require('../utils/gatekeeperMiddleware');
 
@@ -29,13 +30,25 @@ router.post('/', (req, res, next) => {
 
         Order.scope('populated').create(req.body)
             .then(order => order.setUser(req.user))
-            .then(order => order.setProducts(req.body.productId))
+            .then(order => order.setProducts(
+                req.body.productId, {
+                    through: {
+                        quantity: req.body.quantity,
+                        price: req.body.price
+                    }
+                })
+            )
             .then(order => res.send(order))
             .catch(next)
+    } else {
+
     }
 })
 
 router.put('/', (req, res, next) => {
+    if (gatekeeperMiddleware.isLoggedIn) {
+
+    }
     Product.update(req.body, {
         where: {id: req.body.id},
         returning: true,

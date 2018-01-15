@@ -7,17 +7,18 @@ const Order = db.define('order', {
     type: Sequelize.STRING,
     defaultValue: 'created'
   },
+  // Sandy: not sure what 'subtotal' refers to here
   // subtotal: {
   //   type: Sequelize.FLOAT,
   //   allowNull: false
   // },
-  // what does 'authenticated' mean?
+  // Sandy: what does 'authenticated' mean?
   // authenticated: {
   //   type: Sequelize.BOOLEAN,
   //   allowNull: false
   // }
   //may need to keep track of timestamp of status change
-  // consider how to differentiate between cart vs ordwr
+  //Sandy - consider how to differentiate between cart vs order => wasSold: boolean?
 },{
   scopes: {
     populated: () => ({
@@ -28,14 +29,5 @@ const Order = db.define('order', {
   }
 });
 
-Order.scope('populated').beforeSave((orderInstance, options) => {
-  console.log('what is this?????', orderInstance.id)
-  // orderInstance.getProducts({
-  //     where: {
-  //      productId: orderInstance.orderProduct.productId
-  //     }
-  // })
-  // .then(productDetails => console.log('deeets', productDetails, orderInstance.id))
-})
 
 module.exports = Order;

@@ -4,7 +4,6 @@ const {Product, Category} = require('../db/models')
 router.get('/', (req, res, next) => {
     let whereStatement = {}
     if (Object.keys(req.query).length){
-      console.log('=======', req.query)
         whereStatement = {where: req.query, include: [{ model: Category }]}
     }else{
       whereStatement = {include: [{ model: Category }]}

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import ErrorMessage from './ErrorMessage'
-import {fetchReviews} from '../store'
+import ErrorMessage from './ErrorMessage';
+import {fetchReviews} from '../store';
+import { AddToCart } from './index'
 
 class SingleProduct extends Component {
 
@@ -33,6 +34,10 @@ class SingleProduct extends Component {
           })}</div>
           <div>Price: {product.price}</div>
           <div>Description: {product.description}</div>
+          <AddToCart 
+            productId={product.id}
+            productPrice={product.price}
+          />
           <div>
             <div>Reviews: </div>
             {this.props.reviews.map((review) => {

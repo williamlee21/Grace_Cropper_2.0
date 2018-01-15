@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchProducts, setCategory, removeCategory } from '../store/index';
-
+import { AddToCart } from './index'
 class AllProducts extends Component{
 
   constructor(props){
@@ -63,8 +63,10 @@ class AllProducts extends Component{
                       className="product-img">
                         {`${product.name}
                         ${product.price}`}
+                        
                       </div>
                     </Link>}
+                    <AddToCart />
                   </div>
                 )
               })

@@ -23,8 +23,8 @@ const Sequelize = require('sequelize');
  * instead of: const User = require('../db/models/user')
  */
 
-Product.belongsToMany(Order, {through: 'productOrders', foreignKey: 'productId'});
-Order.belongsToMany(Product, {through: 'productOrders', foreignKey: 'orderId'});
+Product.belongsToMany(Order, {through: 'productOrders'});
+Order.belongsToMany(Product, {through: 'productOrders'});
 
 User.hasMany(Order);
 Order.belongsTo(User);

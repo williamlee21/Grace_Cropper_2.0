@@ -6,9 +6,28 @@ import {ProductList} from './ProductList';
 
 
 class Cart extends Component {
+  constructor(props){
+    super(props)
+
+    // this.handleCheckout = this.handleCheckout.bind(this);
+    // this.handleDelete = this.handleDelete.bind(this);
+    // this.handleQuantityChange = this.handleQuantityChange.bind(this);
+  }
+
+  // handleCheckout(event){
+
+  // }
+
+  // handleDelete(event){
+
+  // }
+
+  // handleQuantityChange(event){
+
+  // }
 
   render () {
-    var currentProduct;
+    var currentProduct = {};
     const cart = 'a'
       if (!cart) {
         return (
@@ -19,28 +38,34 @@ class Cart extends Component {
       } else {
       return (
         <div>
-      {console.log(this.props)}
           <h2>Your Cart</h2>
-          {/*
+          {
             <ul>
               {
                 this.props.orders.map(order =>{
                 currentProduct = this.props.products.find( product => {
                   return product.id == order.productId
                 })
-                // console.log(currentProduct ? currentProduct.name : 'hello', order.quantity)
-                currentProduct === 'undefined' ?
-                console.log('currentProduct: ', currentProduct)
 
-                :
-                <li>{order.quantity}</li>
-
+                return (
+                  currentProduct ?
+                  <li key={currentProduct.id}>
+                    {`${currentProduct.name} - ${order.quantity} - ${currentProduct.price}`}
+                    <button>Delete</button>
+                  </li>
+                  :
+                  null
+                )
               })
-
               }
-            {console.log(currentProduct)}
             </ul>
-          */}
+          }
+          <h4>Subtotal: </h4>
+          <button
+            type='button'
+            >
+              Checkout
+          </button>
         </div>
       )
     }
@@ -50,7 +75,7 @@ class Cart extends Component {
 function mapStateToProps(storeState) {
   var orderIdsArr = storeState.orders.map (order => {
     return Number(order.productId)
-  })
+  }) // [1, 2, 3]
 
   return {
     orders: storeState.orders,

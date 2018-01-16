@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Route, Switch, Router} from 'react-router-dom';
 import history from './history';
-import {Navbar, Login, Signup, UserHome, AllProducts, SingleProduct} from './components';
+import {Navbar, Login, Signup, UserHome, AllProducts, SingleProduct, Cart} from './components';
 import {me, fetchProducts, fetchCategories, setCategory } from './store';
 
 
@@ -33,8 +33,9 @@ class Routes extends Component {
                 </Switch>
             }
             {/* Displays our Login component as a fallback */}
-            <Route exact path="/products" component={AllProducts} />
+            <Route exact path="/" component={AllProducts} />
             <Route path="/products/:productId" component={SingleProduct} />
+            <Route exact path="/cart" component={Cart}/>
             <Route component={Login} />
           </Switch>
         </Navbar>

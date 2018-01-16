@@ -19,7 +19,7 @@ const gatekeeperMiddleware = require('../utils/gatekeeperMiddleware');
 // })
 
 router.post('/', (req, res, next) => {
-  placeOrder(req)
+  addToCart(req)
     .then(() => res.sendStatus(200))
     .catch(next);
 });

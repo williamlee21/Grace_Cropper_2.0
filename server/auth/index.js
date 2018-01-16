@@ -1,21 +1,33 @@
-const router = require('express').Router()
-const User = require('../db/models/user')
-const Sessions = require('../db/models/Sessions')
-module.exports = router
+const router = require('express').Router();
+const User = require('../db/models/user');
+const Sessions = require('../db/models/Sessions');
+const {Order} = require('../db/models');
 
 router.post('/login', (req, res, next) => {
+  const orderId = req.session.orderId || null;
   User.findOne({where: {email: req.body.email}})
     .then(user => {
       if (!user) {
-        res.status(401).send('User not found')
+        res.status(401).send('User not found');
       } else if (!user.correctPassword(req.body.password)) {
-        res.status(401).send('Incorrect password')
+        res.status(401).send('Incorrect password');
       } else {
-        req.login(user, err => (err ? next(err) : res.json(user)))
+        req.login(user, (err) => {
+          if(err) {
+            next(err)
+          }
+        });
       }
+      return user;
     })
-    .catch(next)
-})
+    .then((user) => {
+      if(orderId) {
+        Order.update({userId: user.id}, {where: {id: orderId}});
+      }
+      res.json(user);
+    })
+    .catch(next);
+});
 
 router.post('/signup', (req, res, next) => {
   User.create(req.body)
@@ -24,20 +36,22 @@ router.post('/signup', (req, res, next) => {
     })
     .catch(err => {
       if (err.name === 'SequelizeUniqueConstraintError') {
-        res.status(401).send('User already exists')
+        res.status(401).send('User already exists');
       } else {
-        next(err)
+        next(err);
       }
-    })
-})
+    });
+});
 
 router.post('/logout', (req, res) => {
-  req.logout()
-  res.redirect('/')
-})
+  req.logout();
+  res.redirect('/');
+});
 
 router.get('/me', (req, res) => {
-  res.json(req.user)
-})
+  res.json(req.user);
+});
 
-router.use('/google', require('./google'))
+router.use('/google', require('./google'));
+
+module.exports = router;

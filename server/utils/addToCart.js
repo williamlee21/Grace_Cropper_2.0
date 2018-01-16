@@ -1,6 +1,6 @@
 const {Order, productOrders} = require('../db/models');
 
-const placeOrder = (req) => {
+const addToCart = (req) => {
   return Order.findOrCreate({where: {id: req.session.orderId}})
     .spread((order, isCreated) => {
       if(req.user && isCreated) {
@@ -18,5 +18,5 @@ const placeOrder = (req) => {
     });
 };
 
-module.exports = placeOrder;
+module.exports = addToCart;
 

@@ -1,31 +1,11 @@
 const router = require('express').Router();
-const User = require('../db/models/user');
-const Sessions = require('../db/models/Sessions');
+const {User} = require('../db/models');
 const {Order} = require('../db/models');
+const chalk = require('chalk');
+const login = require('../utils/login');
 
 router.post('/login', (req, res, next) => {
-  const orderId = req.session.orderId || null;
-  User.findOne({where: {email: req.body.email}})
-    .then(user => {
-      if (!user) {
-        res.status(401).send('User not found');
-      } else if (!user.correctPassword(req.body.password)) {
-        res.status(401).send('Incorrect password');
-      } else {
-        req.login(user, (err) => {
-          if(err) {
-            next(err)
-          }
-        });
-      }
-      return user;
-    })
-    .then((user) => {
-      if(orderId) {
-        Order.update({userId: user.id}, {where: {id: orderId}});
-      }
-      res.json(user);
-    })
+  login(req, res, next)
     .catch(next);
 });
 

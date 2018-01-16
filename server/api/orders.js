@@ -2,20 +2,13 @@ const router = require('express').Router();
 const {Order, productOrders} = require('../db/models');
 const addToCart = require('../utils/addToCart');
 
-const gatekeeperMiddleware = require('../utils/gatekeeperMiddleware');
-
 // router.get('/', (req, res, next) => {
-//     if (gatekeeperMiddleware.isLoggedIn) {
-
-//     }
 // })
 
 // router.get('/:orderId', (req, res, next) => {
-//     if (gatekeeperMiddleware.isLoggedIn ) {
-//         Product.findById(req.params.productId)
-//             .then(product => res.json(product))
-//             .catch(next)
-//     }
+//   Product.findById(req.params.productId)
+//       .then(product => res.json(product))
+//       .catch(next)
 // })
 
 router.post('/', (req, res, next) => {
@@ -25,8 +18,6 @@ router.post('/', (req, res, next) => {
 });
 
 router.put('/', (req, res, next) => {
-    if (gatekeeperMiddleware.isLoggedIn) {
-    }
     Product.update(req.body, {
         where: {id: req.body.id},
         returning: true,

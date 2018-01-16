@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ErrorMessage from './ErrorMessage';
 import {ProductList} from './ProductList';
+import { removeOrder } from '../store';
 
 
 class Cart extends Component {
@@ -10,7 +11,7 @@ class Cart extends Component {
     super(props)
 
     // this.handleCheckout = this.handleCheckout.bind(this);
-    // this.handleDelete = this.handleDelete.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
     // this.handleQuantityChange = this.handleQuantityChange.bind(this);
   }
 
@@ -18,9 +19,10 @@ class Cart extends Component {
 
   // }
 
-  // handleDelete(event){
-
-  // }
+  handleDelete(event){
+    console.log(event.target.parentNode)
+    this.props.removeOrder({id: event.target.id})
+  }
 
   // handleQuantityChange(event){
 
@@ -49,9 +51,11 @@ class Cart extends Component {
 
                 return (
                   currentProduct ?
-                  <li key={currentProduct.id}>
-                    {`${currentProduct.name} - ${order.quantity} - ${currentProduct.price}`}
-                    <button>Delete</button>
+                  <li key={currentProduct.id} id={currentProduct.id}>
+                    {`${currentProduct.name} - ${order.quantity} - $${currentProduct.price}`}
+                      - <input defaultValue={order.quantity} /> -
+                      - <button>Update</button> -
+                      - <button onClick={this.handleDelete}>Delete</button>
                   </li>
                   :
                   null
@@ -85,4 +89,10 @@ function mapStateToProps(storeState) {
   }
 }
 
-export default connect(mapStateToProps)(Cart);
+function mapDispatchToProps(dispatch){
+  return {
+    removeOrder: () => dispatch(removeOrder)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);

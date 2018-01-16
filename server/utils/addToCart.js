@@ -9,12 +9,11 @@ const addToCart = (req) => {
       return [order, isCreated];
     })
     .spread((order, isCreated) => {
-        if (isCreated) {
-            req.session.orderId = order.id;
-            return productOrders.create({quantity: req.body.quantity, price: req.body.price, orderId: order.id, productId: req.body.productId});
-        } else {
-            return productOrders.update({quantity: req.body.quantity, price: req.body.price}, {where: {orderId: order.id, productId: req.body.productId}});
-        }
+      req.session.orderId = order.id;
+      return productOrders.findOrCreate({where: {orderId: order.id, productId: req.body.productId}});
+    })
+    .then((prodOrd) => {
+      return productOrders.update({quantity: req.body.quantity, price: req.body.price}, {where: {orderId: prodOrd[0].orderId, productId: prodOrd[0].productId}});
     });
 };
 

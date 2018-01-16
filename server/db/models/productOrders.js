@@ -8,7 +8,8 @@ const productOrders = db.define('productOrders', {
   },
   price: {
     type: Sequelize.FLOAT,
-    allowNull: false
+    allowNull: false,
+    defaultValue: 0
   }
 }, {
   scopes: {

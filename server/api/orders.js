@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const {Order, productOrders} = require('../db/models');
-const placeOrder = require('../utils/placeOrder');
+const addToCart = require('../utils/addToCart');
 
 const gatekeeperMiddleware = require('../utils/gatekeeperMiddleware');
 

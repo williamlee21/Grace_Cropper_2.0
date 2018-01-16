@@ -4,36 +4,43 @@ import { Link } from 'react-router-dom';
 import ErrorMessage from './ErrorMessage';
 import {ProductList} from './ProductList';
 
+
 class Cart extends Component {
 
   render () {
-    // return (
-    //   <h1>I AM WORKING </h1>
-    // )
-    
+    var currentProduct;
     const cart = 'a'
       if (!cart) {
         return (
           <div>
-            <h1>I AM BORKEN</h1>
             <ErrorMessage message={`Sorry, we can't find your cart`} />
           </div>
         );
       } else {
       return (
         <div>
-          <ul>
-            {console.log(this.props)}
-            {this.props.orders.map(order =>{
-              return (
-                <li key={order.productId}>
-                  {
-                    order.productId
-                  }
-                </li>
-              )
-            })}
-          </ul>
+      {console.log(this.props)}
+          <h2>Your Cart</h2>
+          {/*
+            <ul>
+              {
+                this.props.orders.map(order =>{
+                currentProduct = this.props.products.find( product => {
+                  return product.id == order.productId
+                })
+                // console.log(currentProduct ? currentProduct.name : 'hello', order.quantity)
+                currentProduct === 'undefined' ?
+                console.log('currentProduct: ', currentProduct)
+
+                :
+                <li>{order.quantity}</li>
+
+              })
+
+              }
+            {console.log(currentProduct)}
+            </ul>
+          */}
         </div>
       )
     }
@@ -41,8 +48,15 @@ class Cart extends Component {
 }
 
 function mapStateToProps(storeState) {
+  var orderIdsArr = storeState.orders.map (order => {
+    return Number(order.productId)
+  })
+
   return {
-    orders: storeState.orders
+    orders: storeState.orders,
+    products: storeState.products.filter(product => {
+      return orderIdsArr.indexOf(product.id) > -1;
+    })
   }
 }
 

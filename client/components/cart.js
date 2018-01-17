@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ErrorMessage from './ErrorMessage';
 import {ProductList} from './ProductList';
-import { removeOrder } from '../store';
+import { removeProduct, fetchOrder } from '../store';
 
 
 class Cart extends Component {
@@ -15,21 +15,15 @@ class Cart extends Component {
     // this.handleQuantityChange = this.handleQuantityChange.bind(this);
   }
 
-  // handleCheckout(event){
-
-  // }
-
-  handleDelete(event){
-    console.log(event.target.parentNode)
-    this.props.removeOrder({id: event.target.id})
+  componentWillMount(){
+    this.props.loadOrders()
   }
 
-  // handleQuantityChange(event){
-
-  // }
+  handleDelete(event){
+    this.props.removeProduct(Number(event.target.parentNode.id))
+  }
 
   render () {
-    var currentProduct = {};
     const cart = 'a'
       if (!cart) {
         return (
@@ -40,27 +34,26 @@ class Cart extends Component {
       } else {
       return (
         <div>
+
           <h2>Your Cart</h2>
           {
             <ul>
               {
-                this.props.orders.map(order =>{
-                currentProduct = this.props.products.find( product => {
-                  return product.id == order.productId
-                })
-
-                return (
-                  currentProduct ?
-                  <li key={currentProduct.id} id={currentProduct.id}>
-                    {`${currentProduct.name} - ${order.quantity} - $${currentProduct.price}`}
-                      - <input defaultValue={order.quantity} /> -
-                      - <button>Update</button> -
-                      - <button onClick={this.handleDelete}>Delete</button>
-                  </li>
-                  :
-                  null
-                )
-              })
+                (this.props.currentOrder && this.props.currentOrder.products) ?
+                  this.props.currentOrder.products.map(
+                    product => {
+                      return (
+                        <li key={product.id} id={product.id}>
+                          {`${product.name} -
+                          ${product.productOrders.quantity} - $${product.productOrders.price}`}
+                            - <input defaultValue={product.productOrders.quantity} /> -
+                            - <button>Update</button> -
+                            - <button onClick={this.handleDelete}>Delete</button>
+                        </li>
+                      )
+                  })
+                :
+                null
               }
             </ul>
           }
@@ -76,22 +69,17 @@ class Cart extends Component {
   }
 }
 
-function mapStateToProps(storeState) {
-  var orderIdsArr = storeState.orders.map (order => {
-    return Number(order.productId)
-  }) // [1, 2, 3]
 
+function mapStateToProps(storeState) {
   return {
-    orders: storeState.orders,
-    products: storeState.products.filter(product => {
-      return orderIdsArr.indexOf(product.id) > -1;
-    })
-  }
+    currentOrder: storeState.orders
+    }
 }
 
 function mapDispatchToProps(dispatch){
   return {
-    removeOrder: () => dispatch(removeOrder)
+    loadOrders: () => dispatch(fetchOrder()),
+    removeProduct: (id) => dispatch(removeProduct(id))
   }
 }
 

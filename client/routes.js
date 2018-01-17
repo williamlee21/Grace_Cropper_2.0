@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Route, Switch, Router} from 'react-router-dom';
 import history from './history';
-import {Navbar, Login, Signup, UserHome, AllProducts, SingleProduct} from './components';
-import {me, fetchProducts, fetchCategories, setCategory } from './store';
+import {Navbar, Login, Signup, UserHome, AllProducts, SingleProduct, Cart} from './components';
+import {me, fetchProducts, fetchCategories, setCategory, fetchOrder } from './store';
 
 
 /**
@@ -13,6 +13,7 @@ class Routes extends Component {
   componentDidMount () {
     this.props.loadProducts();
     this.props.loadCategories();
+    // this.props.loadOrders();
   }
 
   render () {
@@ -30,11 +31,13 @@ class Routes extends Component {
                 <Switch>
                   {/* Routes placed here are only available after logging in */}
                   <Route path="/home" component={UserHome} />
+                  <Route exact path="/cart" component={Cart}/>
                 </Switch>
             }
             {/* Displays our Login component as a fallback */}
-            <Route exact path="/products" component={AllProducts} />
+            <Route exact path="/" component={AllProducts} />
             <Route path="/products/:productId" component={SingleProduct} />
+            <Route exact path="/cart" component={Cart}/>
             <Route component={Login} />
           </Switch>
         </Navbar>
@@ -58,7 +61,8 @@ const mapState = (storeState) => {
 const mapDispatch = (dispatch) => {
   return {
     loadProducts: () => dispatch(fetchProducts()),
-    loadCategories: () => dispatch(fetchCategories())
+    loadCategories: () => dispatch(fetchCategories()),
+    // loadOrders: () => dispatch(fetchOrder()),
   }
 }
 

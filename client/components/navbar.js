@@ -16,6 +16,9 @@ const Navbar = (props) => {
   return (
 
     <div>
+      <Link to='/' ><img src="http://jacksonsrealfoodmarket.co.za/wp-content/uploads/2017/02/fruitveg.png"
+        style={{width: 20 + '%'}}
+      /></Link>
       <h1>GRACE CROPPER</h1>
       <nav>
         <div>

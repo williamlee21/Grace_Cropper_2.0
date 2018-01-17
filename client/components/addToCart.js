@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { addToOrders } from '../store'
+import { addToOrders, fetchOrder } from '../store'
 
 class addToCart extends Component {
     constructor(props){
@@ -24,12 +24,15 @@ class addToCart extends Component {
       }
 
       this.props.addProductToCart(productInfo)
+      this.props.loadOrders()
+
     }
 
     handleQuantityChange(event){
       this.setState({
         quantity: event.target.value
       })
+      this.props.loadOrders()
     }
 
 
@@ -61,7 +64,8 @@ function mapStateToProps(storeState) {
 
 function mapDispatchToProps(dispatch){
   return {
-    addProductToCart : order => dispatch(addToOrders(order))
+    addProductToCart : order => dispatch(addToOrders(order)),
+    loadOrders: () => dispatch(fetchOrder())
   }
 }
 

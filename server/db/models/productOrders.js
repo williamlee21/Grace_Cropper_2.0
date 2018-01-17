@@ -6,10 +6,11 @@ const productOrders = db.define('productOrders', {
     type: Sequelize.INTEGER,
     defaultValue: 1
   },
-  // price: {
-  //   type: Sequelize.FLOAT,
-  //   allowNull: false
-  // }
+  price: {
+    type: Sequelize.FLOAT,
+    allowNull: false,
+    defaultValue: 0
+  }
 }, {
   scopes: {
     populated: () => ({

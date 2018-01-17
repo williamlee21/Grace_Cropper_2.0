@@ -1,54 +1,76 @@
-const router = require('express').Router()
-const {Order} = require('../db/models')
+const router = require('express').Router();
+const {Order, productOrders, Product} = require('../db/models');
+const addToCart = require('../utils/addToCart');
+const chalk = require('chalk');
 
-const gatekeeperMiddleware = require('../utils/gatekeeperMiddleware');
+router.get('/', (req, res, next) => {
+  let whereObj = {where: {}};
+  if(req.user) {
+    whereObj.where = {
+      userId: req.user.id,
+      status: req.query.status
+    };
+  } else {
+    whereObj.where = {
+      id: req.session.orderId,
+      status: req.query.status
+    };
+  }
+  Order.scope('populated').find(whereObj)
+    .then((order) => {
+      res.json(order);
+    })
+    .catch(next);
+});
 
-// router.get('/', (req, res, next) => {
-//     if (gatekeeperMiddleware.isLoggedIn) {
-
-//     }
-// })
-
-// router.get('/:orderId', (req, res, next) => {
-//     if (gatekeeperMiddleware.isLoggedIn ) {
-//         Product.findById(req.params.productId)
-//             .then(product => res.json(product))
-//             .catch(next)
-//     }
-// })
+router.get('/:orderId', (req, res, next) => {
+  Order.scope('populated').findById(req.params.orderId)
+    .then((order) => {
+      res.json(order);
+    })
+    .catch(next);
+});
 
 router.post('/', (req, res, next) => {
-    // we will check whether human user is logged in, if so, we will create an order,
-    // set req.user as UserId on order table
-    // set the productId on productOrder table
-    // pending issues => what do we want on Order table?
-        // how to set multiple productId?
-    if (gatekeeperMiddleware.isLoggedIn) {
-
-        console.log('what is req.body??????', req.body),
-
-        Order.create(req.body.product)
-            .then(order => order.setUser(req.user))
-            .then(order => order.setProducts(req.body.productId))
-            .then(order => res.send(order))
-            .catch(next)
-    }
-})
+  addToCart(req)
+    .then(() => res.sendStatus(200))
+    .catch(next);
+});
 
 router.put('/', (req, res, next) => {
-    Product.update(req.body, {
-        where: {id: req.body.id},
-        returning: true,
-        plain: true
-    })
-    .spread((rows, product) => res.json(product))
-    .catch(next)
-})
+  addToCart(req)
+    .then(() => res.sendStatus(200))
+    .catch(next);
+});
+
+router.delete('/product/:id', (req, res, next) => {
+  let whereObj = {where: {}};
+  if(req.user) {
+    whereObj.where = {
+      userId: req.user.id,
+      status: 'created'
+    };
+  } else {
+    whereObj.where = {
+      id: req.session.orderId,
+      status: 'created'
+    };
+  }
+  Order.find(whereObj)
+  .then((order) => {
+    console.log(chalk.red('order', order))
+    productOrders.destroy({where: {productId: req.params.id, orderId: order.id}});
+  })
+  .then(() => {
+    res.sendStatus(200);
+  })
+  .catch(next);
+});
 
 router.delete('/', (req, res, next) => {
     Product.destroy( {where: {id: req.body.id}})
         .then(() => res.status(202).send('Deleted'))
-        .catch(next)
-})
+        .catch(next);
+});
 
-module.exports = router
+module.exports = router;

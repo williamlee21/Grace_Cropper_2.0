@@ -2,8 +2,8 @@
 
 const {expect} = require('chai')
 const request = require('supertest')
-const db = require('../db')
-const app = require('../index')
+const db = require('../../db')
+const app = require('../../index')
 const User = db.model('user')
 
 describe('User routes', () => {
@@ -16,7 +16,9 @@ describe('User routes', () => {
 
     beforeEach(() => {
       return User.create({
-        email: codysEmail
+        name: 'Cody',
+        email: codysEmail,
+        address: '12 fake st'
       })
     })
 
